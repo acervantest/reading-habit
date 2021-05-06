@@ -1,10 +1,15 @@
 import './App.css';
+import Home from './components/pages/Home';
+import HabitsState from './context/habits/HabitsState';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Application</h1>
-    </div>
+    <HabitsState>
+      <div className='container'>
+        <h1>Reading Habits App</h1>
+        <Home />
+      </div>
+    </HabitsState>
   );
 }
 
