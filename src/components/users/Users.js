@@ -1,5 +1,7 @@
 import React , { useContext, useEffect } from 'react';
+import UserItem from './UserItem';
 import HabitsContext from '../../context/habits/HabitsContext';
+
 
 const Users = () => {
 
@@ -17,11 +19,7 @@ const Users = () => {
             <div>
             {
                 users.map( user => (
-                    <div key={user.id}>
-                        <div >{user.firstName}</div> 
-                        <div >{user.lastName}</div> 
-                        <div >{user.username}</div> 
-                    </div> 
+                    <UserItem key={user.id} user={user} />
                 ))
             }
             </div>
