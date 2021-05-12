@@ -1,1 +1,3 @@
 export const FETCH_USERS = 'FETCH_USERS';
+export const FETCH_USER_DETAIL = 'FETCH_USER_DETAIL';
+export const FETCH_BOOK_RECORD = 'FETCH_BOOK_RECORD';
