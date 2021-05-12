@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/pages/Home';
 import Navbar from './components/layout/Navbar';
 import UserDetail from './components/users/UserDetail';
