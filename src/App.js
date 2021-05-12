@@ -1,5 +1,6 @@
 import './App.css';
 import Home from './components/pages/Home';
+import Navbar from './components/layout/Navbar';
 import UserDetail from './components/users/UserDetail';
 import UserBookRecord from './components/users/UserBookRecord';
 import HabitsState from './context/habits/HabitsState';
@@ -11,7 +12,7 @@ const App = () => {
     <HabitsState>
       <Router>
       <div className='container'>
-        <h1>Reading Habits App</h1>
+        <Navbar />
         <Switch>
           <Route exact path='/' component={ Home }/>
           <Route path='/user/:userId' component={ UserDetail } />
