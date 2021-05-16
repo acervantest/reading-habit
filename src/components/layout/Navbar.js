@@ -21,7 +21,7 @@ const navStyle = {
 }
 
 const iconStyle = {
-    marginRight:'18px'
+    marginRight:'1rem'
 }
 
 export default Navbar;

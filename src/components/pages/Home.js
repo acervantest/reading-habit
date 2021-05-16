@@ -13,11 +13,20 @@ const Home = () => (
                 one simple and fun way to keep you motivated to read daily.
             </p>
             <p>
-                <Button variant="primary">Add a new user</Button>
+                <Button variant="primary">
+                    <span>
+                        <i className="fas fa-user-plus" style={iconStyle}></i>
+                    </span>
+                    Create user  
+                </Button>
             </p>
         </Jumbotron>
         <Users />
     </Fragment>
 )
+
+const iconStyle = {
+    marginRight:'0.5rem'
+}
 
 export default Home;
