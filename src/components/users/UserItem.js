@@ -14,7 +14,7 @@ const UserItem = ({ user: { id, firstName, lastName, userName } }) => {
     return (
         <Fragment>
             <Card className="text-center">
-            <Card.Header><i class="fas fa-user-circle"></i> { userName } </Card.Header>
+            <Card.Header><i className="fas fa-user-circle"></i> { userName } </Card.Header>
             <Card.Body>
                 <Card.Title>{ firstName  } { lastName }</Card.Title>
                 

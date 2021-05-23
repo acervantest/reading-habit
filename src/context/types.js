@@ -1,3 +1,6 @@
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USER_DETAIL = 'FETCH_USER_DETAIL';
 export const FETCH_BOOK_RECORD = 'FETCH_BOOK_RECORD';
+
+export const SHOW_BOOK_MODAL = 'SHOW_BOOK_MODAL';
+export const HIDE_BOOK_MODAL = 'HIDE_BOOK_MODAL';

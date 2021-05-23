@@ -15,7 +15,7 @@ const Users = () => {
     return (
         <Fragment>
             <h3 style={h3Style}>
-                <span><i class="fas fa-users" style={iconStyle}></i></span>
+                <span><i className="fas fa-users" style={iconStyle}></i></span>
                 Users
             </h3>
             <div style={ usersStyle }>
