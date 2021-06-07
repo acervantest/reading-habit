@@ -180,14 +180,13 @@ const UserDetail = ({ match }) => {
                                 
                                 <Card.Text>
                                   
-                                    <span>{book.description}</span>
-                                    
-                                    <span>{book.category.categoryName}</span>
-                                    <span>{book.author.firstName} {book.author.middleName} {book.author.lastName}</span>
+                                    <p>Description: { book.description }</p>
+                                    <p>Category: { book.category }</p>
+                                    <p>Author: { book.author.firstName } { book.author.middleName } { book.author.lastName }</p>
                                    
                                 </Card.Text>
                                 <Button variant="secondary" onClick={ () => goTo(`/userBook/${book.title}/${user.id}/${book.id}`) }>   
-                                    <i className="fas fa-chart-line" style={bookIconStyle}></i>
+                                    <i className="fas fa-chart-line" style={ bookIconStyle }></i>
                                     { book.title }  
                                 </Button>
                             </Card.Body>
