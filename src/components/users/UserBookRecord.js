@@ -20,7 +20,7 @@ const UserBookRecord = ({ match }) => {
 
     return (
         <div style={recordContainerStyle}> 
-            <Button variant="dark" style={backButtonStyle} onClick={ () => goTo(`/user/${ match.params.userId }`) }>   
+            <Button variant="light" style={backButtonStyle} onClick={ () => goTo(`/user/${ match.params.userId }`) }>   
                 <span> <i className="fas fa-arrow-left" style={backIconStyle}></i> </span> 
                 Back
             </Button>

@@ -18,7 +18,7 @@ const UserItem = ({ user: { id, firstName, lastName, userName } }) => {
             <Card.Body>
                 <Card.Title>{ firstName  } { lastName }</Card.Title>
                 
-                <Button variant="dark" onClick={ () => goToUserDetail(`/user/${ id }`) }>   
+                <Button variant="light" onClick={ () => goToUserDetail(`/user/${ id }`) }>   
                     Go to user
                     <span>
                         <i className="fas fa-arrow-right" style={iconStyle}></i>

@@ -7,7 +7,9 @@ import {
     FETCH_USER_DETAIL,
     FETCH_BOOK_RECORD,
     SHOW_BOOK_MODAL,
-    HIDE_BOOK_MODAL
+    HIDE_BOOK_MODAL,
+    SHOW_USER_MODAL,
+    HIDE_USER_MODAL
 } from '../types';
 
 const HabitsState = props => {
@@ -16,7 +18,8 @@ const HabitsState = props => {
         users: [],
         user: {},
         book_record: [],
-        book_modal: false
+        book_modal: false, 
+        user_modal: false
     }
 
     const [state, dispatch] = useReducer(HabitsReducer, initialState);
@@ -62,6 +65,14 @@ const HabitsState = props => {
         })
     }
 
+    const addUser = async (newUser) => {
+        await axios.post(
+            `http://localhost:8080/api/users`,
+            newUser);
+
+        getUsers();
+    }
+
     const bookModalShow = () => {
         dispatch({
             type: SHOW_BOOK_MODAL
@@ -74,18 +85,34 @@ const HabitsState = props => {
         })
     }
 
+    const userModalShow = () => {
+        dispatch({
+            type: SHOW_USER_MODAL
+        })
+    }
+
+    const userModalClose = () => {
+        dispatch({
+            type: HIDE_USER_MODAL
+        })
+    }
+
     return <HabitsContext.Provider
         value={{
             users: state.users,
             user: state.user,
             book_record: state.book_record,
             book_modal: state.book_modal,
+            user_modal: state.user_modal,
             getUsers,
             getUserDetail,
             getBookRecord,
             bookModalShow,
             bookModalClose,
-            addBook
+            userModalShow,
+            userModalClose,
+            addBook,
+            addUser
         }}
     >
         {props.children}

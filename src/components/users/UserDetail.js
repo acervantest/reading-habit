@@ -77,7 +77,7 @@ const UserDetail = ({ match }) => {
     return (
         <div style={userDetailContainerStyle} >
             
-            <Button variant="dark" style={backButtonStyle} onClick={ () => goTo(`/`) }>   
+            <Button variant="light" style={backButtonStyle} onClick={ () => goTo(`/`) }>   
                 <span>
                     <i className="fas fa-arrow-left" style={backIconStyle}></i>
                 </span> 
@@ -91,7 +91,7 @@ const UserDetail = ({ match }) => {
                         <Card.Subtitle className="mb-2 text-muted">
                             <span style={usernameStyle}>Username: </span>{ user.userName }
                         </Card.Subtitle>
-                        <Button variant="dark" onClick={ bookModalShow }>   
+                        <Button variant="primary" onClick={ bookModalShow }>   
                             <span>
                                 <i className="far fa-plus-square" style={addIconStyle}></i>
                             </span> 
@@ -168,34 +168,28 @@ const UserDetail = ({ match }) => {
                 </Modal.Footer>
             </Modal>
                 
-            
-            <div style={booksStyle}>
-            {
+            <div style={booksStyle}> {
                 user.books &&  (
                     user.books.map( book => (
                         <div key={book.id} >
                             <Card>
                             <Card.Header><i className="fas fa-book"></i> { book.title }</Card.Header>
                             <Card.Body>
-                                
-                                <Card.Text>
-                                  
-                                    <p>Description: { book.description }</p>
-                                    <p>Category: { book.category }</p>
-                                    <p>Author: { book.author.firstName } { book.author.middleName } { book.author.lastName }</p>
-                                   
-                                </Card.Text>
-                                <Button variant="secondary" onClick={ () => goTo(`/userBook/${book.title}/${user.id}/${book.id}`) }>   
-                                    <i className="fas fa-chart-line" style={ bookIconStyle }></i>
-                                    { book.title }  
-                                </Button>
+                            <Card.Text>
+                                <p>Description: { book.description }</p>
+                                <p>Category: { book.category }</p>
+                                <p>Author: { book.author.firstName } { book.author.middleName } { book.author.lastName }</p>
+                            </Card.Text>
+                            <Button variant="light" onClick={ () => goTo(`/userBook/${book.title}/${user.id}/${book.id}`) }>   
+                                <i className="fas fa-chart-line" style={ bookIconStyle }></i>
+                                { book.title }  
+                            </Button>
                             </Card.Body>
                             </Card>     
                         </div>
                     ))
                 )
-            }  
-            </div>  
+            } </div>  
         </div>
     )
 }

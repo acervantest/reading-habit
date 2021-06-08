@@ -3,7 +3,9 @@ import {
     FETCH_USER_DETAIL,
     FETCH_BOOK_RECORD,
     SHOW_BOOK_MODAL,
-    HIDE_BOOK_MODAL
+    HIDE_BOOK_MODAL,
+    SHOW_USER_MODAL,
+    HIDE_USER_MODAL
 } from '../types';
 
  const HabitsReducer = (state, action) => {
@@ -32,6 +34,16 @@ import {
             return {
                 ...state,
                 book_modal: false
+            }
+        case SHOW_USER_MODAL:
+            return {
+                ...state,
+                user_modal: true
+            }
+        case HIDE_USER_MODAL:
+            return {
+                ...state,
+                user_modal: false
             }
         default:
             return state;

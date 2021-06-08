@@ -4,3 +4,6 @@ export const FETCH_BOOK_RECORD = 'FETCH_BOOK_RECORD';
 
 export const SHOW_BOOK_MODAL = 'SHOW_BOOK_MODAL';
 export const HIDE_BOOK_MODAL = 'HIDE_BOOK_MODAL';
+
+export const SHOW_USER_MODAL = 'SHOW_USER_MODAL';
+export const HIDE_USER_MODAL = 'HIDE_USER_MODAL';
