@@ -2,10 +2,9 @@ import {
     FETCH_USERS,
     FETCH_USER_DETAIL,
     FETCH_BOOK_RECORD,
-    SHOW_BOOK_MODAL,
-    HIDE_BOOK_MODAL,
-    SHOW_USER_MODAL,
-    HIDE_USER_MODAL
+    TOGGLE_CREATE_BOOK_MODAL,
+    TOGGLE_CREATE_USER_MODAL,
+    TOGGLE_DELETE_USER_MODAL
 } from '../types';
 
  const HabitsReducer = (state, action) => {
@@ -25,26 +24,21 @@ import {
                 ...state,
                 book_record: action.payload
             }
-        case SHOW_BOOK_MODAL:
+        case TOGGLE_CREATE_BOOK_MODAL:
             return {
                 ...state,
-                book_modal: true
+                create_book_modal: !state.create_book_modal
             }
-        case HIDE_BOOK_MODAL:
+        case TOGGLE_CREATE_USER_MODAL:
             return {
                 ...state,
-                book_modal: false
+                create_user_modal: !state.create_user_modal
             }
-        case SHOW_USER_MODAL:
+        case TOGGLE_DELETE_USER_MODAL:
             return {
                 ...state,
-                user_modal: true
-            }
-        case HIDE_USER_MODAL:
-            return {
-                ...state,
-                user_modal: false
-            }
+                delete_user_modal: !state.delete_user_modal
+            }  
         default:
             return state;
     }

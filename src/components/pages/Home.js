@@ -12,17 +12,16 @@ const Home = () => {
     const habitsContext = useContext(HabitsContext);
 
     const { 
-        user_modal,
-        userModalShow, 
-        userModalClose,
-        addUser
+        create_user_modal,
+        toggleCreateUserModal,
+        createUser
     } = habitsContext;
 
     const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
     const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
     const { value: userName, bind: bindUserName, reset: resetUserName } = useInput('');
 
-    const createUser = (e) => {
+    const createNewUser = (e) => {
         
         e.preventDefault();
 
@@ -32,8 +31,8 @@ const Home = () => {
             userName: userName
         }
 
-        addUser(newUser);
-        userModalClose();
+        createUser(newUser);
+        toggleCreateUserModal();
         resetFirstName();
         resetLastName();
         resetUserName();
@@ -49,7 +48,7 @@ const Home = () => {
                     a fun way to keep you motivation to read daily.
                 </p>
                 <p>
-                    <Button variant="primary" onClick={userModalShow}>
+                    <Button variant="primary" onClick={toggleCreateUserModal}>
                         <span>
                             <i className="fas fa-user-plus" style={iconStyle}></i>
                         </span>
@@ -58,13 +57,13 @@ const Home = () => {
                 </p>
             </Jumbotron>
 
-            <Modal show={ user_modal } onHide={ userModalClose }>
+            <Modal show={ create_user_modal } onHide={ toggleCreateUserModal }>
                 <Modal.Header closeButton>
                 <Modal.Title>New User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
-                    <Form onSubmit={ createUser }>
+                    <Form onSubmit={ createNewUser }>
 
                     <Form.Group controlId="formFirstName">
                         <Form.Label>First Name</Form.Label>
@@ -88,7 +87,7 @@ const Home = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={ userModalClose }>
+                <Button variant="secondary" onClick={ toggleCreateUserModal }>
                     Close
                 </Button>
                 </Modal.Footer>

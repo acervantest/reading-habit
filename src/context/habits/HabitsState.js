@@ -6,10 +6,9 @@ import {
     FETCH_USERS,
     FETCH_USER_DETAIL,
     FETCH_BOOK_RECORD,
-    SHOW_BOOK_MODAL,
-    HIDE_BOOK_MODAL,
-    SHOW_USER_MODAL,
-    HIDE_USER_MODAL
+    TOGGLE_CREATE_BOOK_MODAL,
+    TOGGLE_CREATE_USER_MODAL,
+    TOGGLE_DELETE_USER_MODAL
 } from '../types';
 
 const HabitsState = props => {
@@ -18,8 +17,9 @@ const HabitsState = props => {
         users: [],
         user: {},
         book_record: [],
-        book_modal: false, 
-        user_modal: false
+        create_book_modal: false, 
+        create_user_modal: false,
+        delete_user_modal: false
     }
 
     const [state, dispatch] = useReducer(HabitsReducer, initialState);
@@ -53,7 +53,7 @@ const HabitsState = props => {
         })
     }
 
-    const addBook = async (userId, newBook) => {
+    const createBook = async (userId, newBook) => {
         const res = await axios.post(
             `http://localhost:8080/api/users/${userId}/`,
             newBook
@@ -65,7 +65,7 @@ const HabitsState = props => {
         })
     }
 
-    const addUser = async (newUser) => {
+    const createUser = async (newUser) => {
         await axios.post(
             `http://localhost:8080/api/users`,
             newUser);
@@ -73,27 +73,26 @@ const HabitsState = props => {
         getUsers();
     }
 
-    const bookModalShow = () => {
+    const deleteUser = async userId => {
+        await axios.delete(`http://localhost:8080/api/user/${userId}`);
+        getUsers();
+    }
+
+    const toggleCreateBookModal = () => {
         dispatch({
-            type: SHOW_BOOK_MODAL
+            type: TOGGLE_CREATE_BOOK_MODAL
         })
     }
 
-    const bookModalClose = () => {
+    const toggleCreateUserModal = () => {
         dispatch({
-            type: HIDE_BOOK_MODAL
+            type: TOGGLE_CREATE_USER_MODAL
         })
     }
 
-    const userModalShow = () => {
+    const toggleDeleteUserModal = () => {
         dispatch({
-            type: SHOW_USER_MODAL
-        })
-    }
-
-    const userModalClose = () => {
-        dispatch({
-            type: HIDE_USER_MODAL
+            type: TOGGLE_DELETE_USER_MODAL
         })
     }
 
@@ -102,17 +101,18 @@ const HabitsState = props => {
             users: state.users,
             user: state.user,
             book_record: state.book_record,
-            book_modal: state.book_modal,
-            user_modal: state.user_modal,
+            create_book_modal: state.create_book_modal,
+            create_user_modal: state.create_user_modal,
+            delete_user_modal: state.delete_user_modal,
             getUsers,
             getUserDetail,
             getBookRecord,
-            bookModalShow,
-            bookModalClose,
-            userModalShow,
-            userModalClose,
-            addBook,
-            addUser
+            createBook,
+            createUser,
+            toggleCreateBookModal,
+            toggleCreateUserModal,
+            toggleDeleteUserModal,
+            deleteUser
         }}
     >
         {props.children}
