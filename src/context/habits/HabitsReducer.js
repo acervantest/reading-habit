@@ -2,8 +2,7 @@ import {
     FETCH_USERS,
     FETCH_USER_DETAIL,
     FETCH_BOOK_RECORD,
-    SHOW_BOOK_MODAL,
-    HIDE_BOOK_MODAL,
+    TOGGLE_CREATE_BOOK_MODAL,
     TOGGLE_CREATE_USER_MODAL,
     TOGGLE_DELETE_USER_MODAL
 } from '../types';
@@ -25,15 +24,10 @@ import {
                 ...state,
                 book_record: action.payload
             }
-        case SHOW_BOOK_MODAL:
+        case TOGGLE_CREATE_BOOK_MODAL:
             return {
                 ...state,
-                book_modal: true
-            }
-        case HIDE_BOOK_MODAL:
-            return {
-                ...state,
-                book_modal: false
+                create_book_modal: !state.create_book_modal
             }
         case TOGGLE_CREATE_USER_MODAL:
             return {

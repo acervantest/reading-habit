@@ -87,7 +87,7 @@ const Home = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={ userModalClose }>
+                <Button variant="secondary" onClick={ toggleCreateUserModal }>
                     Close
                 </Button>
                 </Modal.Footer>

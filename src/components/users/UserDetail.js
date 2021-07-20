@@ -20,10 +20,9 @@ const UserDetail = ({ match }) => {
         delete_user_modal,
         getUserDetail, 
         user, 
-        book_modal, 
-        bookModalShow, 
-        bookModalClose,
-        addBook,
+        create_book_modal, 
+        toggleCreateBookModal,
+        createBook,
         toggleDeleteUserModal,
         deleteUser
      } = habitsContext;
@@ -44,7 +43,7 @@ const UserDetail = ({ match }) => {
     const { value: bookAuthorLastName, bind: bindAuthorLastName, reset: resetAuthorLastName } = useInput('');
     const { value: bookAuthorAbout, bind: bindAuthorAbout, reset: resetAuthorAbout } = useInput('');
 
-    const createBook = (e) => {
+    const createNewBook = (e) => {
         e.preventDefault();
 
         const newBook = {
@@ -63,8 +62,8 @@ const UserDetail = ({ match }) => {
             }
         }
 
-        addBook(userId, newBook);
-        bookModalClose();
+        createBook(userId, newBook);
+        toggleCreateBookModal();
 
         resetBookTitle();
         resetBookDescription();
@@ -100,7 +99,7 @@ const UserDetail = ({ match }) => {
                         <Card.Subtitle className="mb-2 text-muted">
                             <span style={usernameStyle}>Username: </span>{ user.userName }
                         </Card.Subtitle>
-                        <Button variant="primary" onClick={ bookModalShow }>   
+                        <Button variant="primary" onClick={ toggleCreateBookModal }>   
                             <span>
                                 <i className="far fa-plus-square" style={addIconStyle}></i>
                             </span> 
@@ -136,13 +135,13 @@ const UserDetail = ({ match }) => {
                 </Modal.Footer>
             </Modal>  
 
-            <Modal show={book_modal} onHide={bookModalClose}>
+            <Modal show={create_book_modal} onHide={toggleCreateBookModal}>
                 <Modal.Header closeButton>
                 <Modal.Title>Start Reading New Book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
-                    <Form onSubmit={createBook}>
+                    <Form onSubmit={createNewBook}>
 
                     <Form.Group controlId="formBookTitle">
                         <Form.Label>Book Title</Form.Label>
@@ -197,7 +196,7 @@ const UserDetail = ({ match }) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={bookModalClose}>
+                <Button variant="secondary" onClick={toggleCreateBookModal}>
                     Close
                 </Button>
                 </Modal.Footer>
