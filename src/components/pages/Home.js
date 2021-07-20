@@ -21,7 +21,7 @@ const Home = () => {
     const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
     const { value: userName, bind: bindUserName, reset: resetUserName } = useInput('');
 
-    const createUser = (e) => {
+    const createNewUser = (e) => {
         
         e.preventDefault();
 
@@ -63,7 +63,7 @@ const Home = () => {
                 </Modal.Header>
                 <Modal.Body>
 
-                    <Form onSubmit={ createUser }>
+                    <Form onSubmit={ createNewUser }>
 
                     <Form.Group controlId="formFirstName">
                         <Form.Label>First Name</Form.Label>
