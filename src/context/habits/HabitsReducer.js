@@ -4,8 +4,7 @@ import {
     FETCH_BOOK_RECORD,
     SHOW_BOOK_MODAL,
     HIDE_BOOK_MODAL,
-    SHOW_USER_MODAL,
-    HIDE_USER_MODAL,
+    TOGGLE_CREATE_USER_MODAL,
     TOGGLE_DELETE_USER_MODAL
 } from '../types';
 
@@ -36,15 +35,10 @@ import {
                 ...state,
                 book_modal: false
             }
-        case SHOW_USER_MODAL:
+        case TOGGLE_CREATE_USER_MODAL:
             return {
                 ...state,
-                user_modal: true
-            }
-        case HIDE_USER_MODAL:
-            return {
-                ...state,
-                user_modal: false
+                create_user_modal: !state.create_user_modal
             }
         case TOGGLE_DELETE_USER_MODAL:
             return {

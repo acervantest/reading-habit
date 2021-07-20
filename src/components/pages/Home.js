@@ -12,10 +12,9 @@ const Home = () => {
     const habitsContext = useContext(HabitsContext);
 
     const { 
-        user_modal,
-        userModalShow, 
-        userModalClose,
-        addUser
+        create_user_modal,
+        toggleCreateUserModal,
+        createUser
     } = habitsContext;
 
     const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
@@ -32,8 +31,8 @@ const Home = () => {
             userName: userName
         }
 
-        addUser(newUser);
-        userModalClose();
+        createUser(newUser);
+        toggleCreateUserModal();
         resetFirstName();
         resetLastName();
         resetUserName();
@@ -49,7 +48,7 @@ const Home = () => {
                     a fun way to keep you motivation to read daily.
                 </p>
                 <p>
-                    <Button variant="primary" onClick={userModalShow}>
+                    <Button variant="primary" onClick={toggleCreateUserModal}>
                         <span>
                             <i className="fas fa-user-plus" style={iconStyle}></i>
                         </span>
@@ -58,7 +57,7 @@ const Home = () => {
                 </p>
             </Jumbotron>
 
-            <Modal show={ user_modal } onHide={ userModalClose }>
+            <Modal show={ create_user_modal } onHide={ toggleCreateUserModal }>
                 <Modal.Header closeButton>
                 <Modal.Title>New User</Modal.Title>
                 </Modal.Header>
