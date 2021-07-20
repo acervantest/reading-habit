@@ -5,7 +5,8 @@ import {
     SHOW_BOOK_MODAL,
     HIDE_BOOK_MODAL,
     SHOW_USER_MODAL,
-    HIDE_USER_MODAL
+    HIDE_USER_MODAL,
+    TOGGLE_DELETE_USER_MODAL
 } from '../types';
 
  const HabitsReducer = (state, action) => {
@@ -45,6 +46,11 @@ import {
                 ...state,
                 user_modal: false
             }
+        case TOGGLE_DELETE_USER_MODAL:
+            return {
+                ...state,
+                delete_user_modal: !state.delete_user_modal
+            }  
         default:
             return state;
     }

@@ -9,7 +9,8 @@ import {
     SHOW_BOOK_MODAL,
     HIDE_BOOK_MODAL,
     SHOW_USER_MODAL,
-    HIDE_USER_MODAL
+    HIDE_USER_MODAL,
+    TOGGLE_DELETE_USER_MODAL
 } from '../types';
 
 const HabitsState = props => {
@@ -19,7 +20,8 @@ const HabitsState = props => {
         user: {},
         book_record: [],
         book_modal: false, 
-        user_modal: false
+        user_modal: false,
+        delete_user_modal: false
     }
 
     const [state, dispatch] = useReducer(HabitsReducer, initialState);
@@ -73,6 +75,11 @@ const HabitsState = props => {
         getUsers();
     }
 
+    const deleteUser = async userId => {
+        await axios.delete(`http://localhost:8080/api/user/${userId}`);
+        getUsers();
+    }
+
     const bookModalShow = () => {
         dispatch({
             type: SHOW_BOOK_MODAL
@@ -97,6 +104,12 @@ const HabitsState = props => {
         })
     }
 
+    const toggleDeleteUserModal = () => {
+        dispatch({
+            type: TOGGLE_DELETE_USER_MODAL
+        })
+    }
+
     return <HabitsContext.Provider
         value={{
             users: state.users,
@@ -104,6 +117,7 @@ const HabitsState = props => {
             book_record: state.book_record,
             book_modal: state.book_modal,
             user_modal: state.user_modal,
+            delete_user_modal: state.delete_user_modal,
             getUsers,
             getUserDetail,
             getBookRecord,
@@ -112,7 +126,9 @@ const HabitsState = props => {
             userModalShow,
             userModalClose,
             addBook,
-            addUser
+            addUser,
+            toggleDeleteUserModal,
+            deleteUser
         }}
     >
         {props.children}

@@ -17,12 +17,15 @@ const UserDetail = ({ match }) => {
     const { userId } = match.params;
     
     const { 
+        delete_user_modal,
         getUserDetail, 
         user, 
         book_modal, 
         bookModalShow, 
         bookModalClose,
-        addBook
+        addBook,
+        toggleDeleteUserModal,
+        deleteUser
      } = habitsContext;
 
     useEffect( () => {
@@ -74,6 +77,12 @@ const UserDetail = ({ match }) => {
         resetAuthorAbout();
     }
 
+    const removeUser = () => {
+        deleteUser(userId);
+        toggleDeleteUserModal();
+        goTo(`/`)
+    }
+
     return (
         <div style={userDetailContainerStyle} >
             
@@ -95,15 +104,41 @@ const UserDetail = ({ match }) => {
                             <span>
                                 <i className="far fa-plus-square" style={addIconStyle}></i>
                             </span> 
-                            New Book
+                            Start Reading
+                        </Button>
+                        <Button variant="danger" onClick={toggleDeleteUserModal}>   
+                            <span>
+                                <i className="fas fa-minus-square" style={addIconStyle}></i>
+                            </span> 
+                            Delete User
                         </Button>
                     </Card.Body>
                 </Card>
             </div>
-                       
+
+        
+            <Modal show={ delete_user_modal } onHide={ toggleDeleteUserModal }>
+                <Modal.Header closeButton>
+                <Modal.Title>{`Delete User ${user.firstName}`} </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    {`You are about to delete ${user.firstName}, click confirm to remove user.`}
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={ removeUser }>
+                        Confirm
+                    </Button>
+                    <Button variant="secondary" onClick={ toggleDeleteUserModal }>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>  
+
             <Modal show={book_modal} onHide={bookModalClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>New Book</Modal.Title>
+                <Modal.Title>Start Reading New Book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
