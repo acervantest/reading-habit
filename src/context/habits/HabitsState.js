@@ -8,7 +8,8 @@ import {
     FETCH_BOOK_RECORD,
     TOGGLE_CREATE_BOOK_MODAL,
     TOGGLE_CREATE_USER_MODAL,
-    TOGGLE_DELETE_USER_MODAL
+    TOGGLE_DELETE_USER_MODAL,
+    TOGGLE_UPDATE_USER_MODAL
 } from '../types';
 
 const HabitsState = props => {
@@ -19,6 +20,7 @@ const HabitsState = props => {
         book_record: [],
         create_book_modal: false, 
         create_user_modal: false,
+        update_user_modal: false,
         delete_user_modal: false
     }
 
@@ -65,10 +67,9 @@ const HabitsState = props => {
         })
     }
 
-    const createUser = async (newUser) => {
-        await axios.post(
-            `http://localhost:8080/api/users`,
-            newUser);
+    const createUser = async newUser => {
+        
+        await axios.post(`http://localhost:8080/api/users`, newUser);
 
         getUsers();
     }
@@ -76,6 +77,11 @@ const HabitsState = props => {
     const deleteUser = async userId => {
         await axios.delete(`http://localhost:8080/api/user/${userId}`);
         getUsers();
+    }
+
+    const updateUser = async updateUser => {
+        const res = await axios.put(`http://localhost:8080/api/users`, updateUser);
+        getUserDetail(res.data.id);
     }
 
     const toggleCreateBookModal = () => {
@@ -87,6 +93,12 @@ const HabitsState = props => {
     const toggleCreateUserModal = () => {
         dispatch({
             type: TOGGLE_CREATE_USER_MODAL
+        })
+    }
+
+    const toggleEditUserModal = () => {
+        dispatch({
+            type: TOGGLE_UPDATE_USER_MODAL
         })
     }
 
@@ -104,6 +116,7 @@ const HabitsState = props => {
             create_book_modal: state.create_book_modal,
             create_user_modal: state.create_user_modal,
             delete_user_modal: state.delete_user_modal,
+            update_user_modal: state.update_user_modal,
             getUsers,
             getUserDetail,
             getBookRecord,
@@ -111,11 +124,13 @@ const HabitsState = props => {
             createUser,
             toggleCreateBookModal,
             toggleCreateUserModal,
+            toggleEditUserModal,
             toggleDeleteUserModal,
-            deleteUser
+            deleteUser,
+            updateUser
         }}
     >
-        {props.children}
+        { props.children }
     </HabitsContext.Provider>
 }
 

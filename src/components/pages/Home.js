@@ -7,15 +7,32 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useInput } from '../../CustomHooks/useInput';
 
-const Home = () => {
-    
-    const habitsContext = useContext(HabitsContext);
+const iconStyle = {
+    marginRight:'0.5rem'
+}
 
-    const { 
-        create_user_modal,
-        toggleCreateUserModal,
-        createUser
-    } = habitsContext;
+const Jumbo = ({ toggleModal }) => {
+    return (
+        <Jumbotron>
+            <h1>Welcome to your personal reading tracker!</h1>
+            <p>
+                A simple way to keep track of your reading progress, get statistics on how many books 
+                you are reading every certain time, how many pages you are reading every day and even more important,
+                a fun way to keep you motivation to read daily.
+            </p>
+            <p>
+                <Button variant="primary" onClick={ toggleModal }>
+                    <span>
+                        <i className="fas fa-user-plus" style={iconStyle}></i>
+                    </span>
+                    Create user  
+                </Button>
+            </p>
+        </Jumbotron>
+    )
+}
+
+const CreateUserModal = ({ toggleModal, showModal, createUser }) => {
 
     const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
     const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
@@ -25,41 +42,21 @@ const Home = () => {
         
         e.preventDefault();
 
-        const newUser = {
+        createUser({
             firstName: firstName,
             lastName: lastName,
             userName: userName
-        }
-
-        createUser(newUser);
-        toggleCreateUserModal();
+        });
+        toggleModal();
         resetFirstName();
         resetLastName();
         resetUserName();
     }
 
-    return(
-        <Fragment>
-            <Jumbotron>
-                <h1>Welcome to your personal reading tracker!</h1>
-                <p>
-                    A simple way to keep track of your reading progress, get statistics on how many books 
-                    you are reading every certain time, how many pages you are reading every day and even more important,
-                    a fun way to keep you motivation to read daily.
-                </p>
-                <p>
-                    <Button variant="primary" onClick={toggleCreateUserModal}>
-                        <span>
-                            <i className="fas fa-user-plus" style={iconStyle}></i>
-                        </span>
-                        Create user  
-                    </Button>
-                </p>
-            </Jumbotron>
-
-            <Modal show={ create_user_modal } onHide={ toggleCreateUserModal }>
+    return (
+        <Modal show={ showModal } onHide={ toggleModal } animation={ false }>
                 <Modal.Header closeButton>
-                <Modal.Title>New User</Modal.Title>
+                    <Modal.Title>New User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
@@ -87,19 +84,37 @@ const Home = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={ toggleCreateUserModal }>
-                    Close
-                </Button>
+                    <Button variant="secondary" onClick={ toggleModal }>
+                        Close
+                    </Button>
                 </Modal.Footer>
             </Modal>
-
-            <Users />
-        </Fragment>
     )
 }
 
-const iconStyle = {
-    marginRight:'0.5rem'
+const Home = () => { 
+
+    const { 
+        create_user_modal,
+        toggleCreateUserModal,
+        createUser
+    } = useContext(HabitsContext);
+
+    return(
+        <Fragment>
+            
+            <Jumbo toggleModal={ toggleCreateUserModal } />
+
+            <CreateUserModal 
+                toggleModal={ toggleCreateUserModal }
+                showModal={ create_user_modal }
+                createUser={ createUser }
+            />            
+
+            <Users />
+
+        </Fragment>
+    )
 }
 
 export default Home;

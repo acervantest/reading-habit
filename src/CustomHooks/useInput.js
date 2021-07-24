@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useInput = initialValue => {
 
     const [value, setValue] = useState(initialValue);
 
+    useEffect(() => {
+        setValue(initialValue !== null ? initialValue : '');
+    }, [ initialValue ]);
+
     return {
         value,
         setValue,
         reset: () => setValue(''),
-        bind:{
+        bind: {
             value,
             onChange: event => {
                 setValue(event.target.value);
@@ -18,6 +22,7 @@ export const useInput = initialValue => {
 }
 
 export const useCheckbox = initialValue => {
+    
     const [value, setValue] = useState(initialValue);
 
     return {
