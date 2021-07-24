@@ -4,7 +4,8 @@ import {
     FETCH_BOOK_RECORD,
     TOGGLE_CREATE_BOOK_MODAL,
     TOGGLE_CREATE_USER_MODAL,
-    TOGGLE_DELETE_USER_MODAL
+    TOGGLE_DELETE_USER_MODAL,
+    TOGGLE_UPDATE_USER_MODAL
 } from '../types';
 
  const HabitsReducer = (state, action) => {
@@ -34,6 +35,11 @@ import {
                 ...state,
                 create_user_modal: !state.create_user_modal
             }
+        case TOGGLE_UPDATE_USER_MODAL:
+            return {
+                ...state,
+                update_user_modal: !state.update_user_modal
+            }    
         case TOGGLE_DELETE_USER_MODAL:
             return {
                 ...state,
