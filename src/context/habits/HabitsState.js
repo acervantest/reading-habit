@@ -59,7 +59,9 @@ const HabitsState = props => {
         const res = await axios.post(
             `http://localhost:8080/api/users/${userId}/`,
             newBook
-        );
+        ).catch(err => {
+            return Promise.reject(err); 
+        });
 
         dispatch({
             type: FETCH_USER_DETAIL,
