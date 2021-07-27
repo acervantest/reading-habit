@@ -1,6 +1,7 @@
 import React , { Fragment, useContext, useEffect } from 'react';
 import UserItem from './UserItem';
 import HabitsContext from '../../context/habits/HabitsContext';
+import AlertsContext from '../../context/alerts/AlertsContext';
 
 const usersStyle = {
     display: 'grid',
@@ -19,8 +20,13 @@ const h3Style = {
 const Users = () => {
 
     const { getUsers, users } = useContext(HabitsContext);
+    const { setAlert } = useContext(AlertsContext);
 
-    useEffect( () =>  getUsers(), []);
+    useEffect( () =>  {
+        getUsers().catch( err => {
+            setAlert(err.message, 'primary'); 
+        })
+    }, []);
 
     return (
         <Fragment>

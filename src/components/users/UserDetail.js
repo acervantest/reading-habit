@@ -47,7 +47,7 @@ const GoBackButton = ({ goTo }) => {
     )
 }
 
-const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook, userId, alertsContext }) => {
+const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook, userId, setAlert }) => {
     
     const { value: bookTitle, bind: bindBookTitle, reset: resetBookTitle } = useInput('');
     const { value: bookDescription, bind: bindBookDescription, reset: resetBookDescription } = useInput('');
@@ -78,8 +78,7 @@ const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook,
                 about: bookAuthorAbout 
             }
         }).catch( err => {
-            console.log(err.response);
-            alertsContext.setAlert(err.response.data.message, 'danger');
+            setAlert(err.response.data.message, 'danger');
         });
 
         toggleCreateBookModal();
@@ -312,11 +311,6 @@ const UserDetail = ({ match }) => {
 
     const history = useHistory();
 
-    const habitsContext = useContext(HabitsContext);
-    const alertsContext = useContext(AlertsContext);
-
-    const { userId } = match.params;
-    
     const { 
         delete_user_modal,
         getUserDetail, 
@@ -329,7 +323,11 @@ const UserDetail = ({ match }) => {
         update_user_modal,
         toggleEditUserModal,
         updateUser
-     } = habitsContext;
+     } = useContext(HabitsContext);
+
+    const { setAlert } = useContext(AlertsContext);
+
+    const { userId } = match.params;
 
     useEffect( () => getUserDetail(userId), []);
 
@@ -361,7 +359,7 @@ const UserDetail = ({ match }) => {
                 toggleCreateBookModal={ toggleCreateBookModal }
                 createBook={  createBook }
                 userId={ userId }
-                alertsContext={ alertsContext }
+                setAlert={ setAlert }
             />
 
             <UpdateUserModal 

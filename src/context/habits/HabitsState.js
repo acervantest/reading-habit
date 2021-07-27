@@ -28,7 +28,10 @@ const HabitsState = props => {
 
     const getUsers = async () => {
 
-        const users = await axios.get('http://localhost:8080/api/users'); 
+        const users = await axios.get('http://localhost:8080/api/users').catch(err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err); 
+        }); 
         
         dispatch({
             type: FETCH_USERS,
@@ -60,6 +63,7 @@ const HabitsState = props => {
             `http://localhost:8080/api/users/${userId}/`,
             newBook
         ).catch(err => {
+            console.log(JSON.stringify(err));
             return Promise.reject(err); 
         });
 
