@@ -78,7 +78,8 @@ const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook,
                 about: bookAuthorAbout 
             }
         }).catch( err => {
-            setAlert(err.response.data.message, 'danger');
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
         });
 
         toggleCreateBookModal();
@@ -197,10 +198,13 @@ const UserInfo = ({ user, toggleCreateBookModal, toggleEditUserModal, toggleDele
     )
 }
 
-const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, deleteUser, userId, goTo  }) => {
+const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, deleteUser, userId, goTo, setAlert }) => {
 
     const removeUser = () => {
-        deleteUser(userId);
+        deleteUser(userId).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
+        });
         toggleDeleteUserModal();
         goTo(`/`)
     }
@@ -352,6 +356,7 @@ const UserDetail = ({ match }) => {
                 deleteUser={ deleteUser }
                 userId={ userId }
                 goTo={ goTo }
+                setAlert={ setAlert }
             /> 
 
             <CreateBookModal 

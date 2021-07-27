@@ -87,7 +87,12 @@ const HabitsState = props => {
     }
 
     const deleteUser = async userId => {
-        await axios.delete(`http://localhost:8080/api/user/${userId}`);
+        await axios.delete(`http://localhost:8080/api/user/${userId}`
+        ).catch(err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err); 
+        });
+
         getUsers();
     }
 

@@ -48,7 +48,8 @@ const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert }) => {
             lastName: lastName,
             userName: userName
         }).catch( err => {
-            setAlert(err.response.data.message, 'danger');
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
         });
         toggleModal();
         resetFirstName();

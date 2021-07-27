@@ -24,7 +24,8 @@ const Users = () => {
 
     useEffect( () =>  {
         getUsers().catch( err => {
-            setAlert(err.message, 'primary'); 
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'primary'); 
         })
     }, []);
 
