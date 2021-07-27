@@ -3,6 +3,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
 import Users from '../users/Users';
 import HabitsContext from '../../context/habits/HabitsContext';
+import AlertsContext from '../../context/alerts/AlertsContext';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useInput } from '../../CustomHooks/useInput';
@@ -32,7 +33,7 @@ const Jumbo = ({ toggleModal }) => {
     )
 }
 
-const CreateUserModal = ({ toggleModal, showModal, createUser }) => {
+const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert }) => {
 
     const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
     const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
@@ -46,6 +47,8 @@ const CreateUserModal = ({ toggleModal, showModal, createUser }) => {
             firstName: firstName,
             lastName: lastName,
             userName: userName
+        }).catch( err => {
+            setAlert(err.response.data.message, 'danger');
         });
         toggleModal();
         resetFirstName();
@@ -100,6 +103,8 @@ const Home = () => {
         createUser
     } = useContext(HabitsContext);
 
+    const { setAlert } = useContext(AlertsContext);
+
     return(
         <Fragment>
             
@@ -109,6 +114,7 @@ const Home = () => {
                 toggleModal={ toggleCreateUserModal }
                 showModal={ create_user_modal }
                 createUser={ createUser }
+                setAlert={ setAlert }
             />            
 
             <Users />

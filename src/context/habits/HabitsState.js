@@ -75,7 +75,13 @@ const HabitsState = props => {
 
     const createUser = async newUser => {
         
-        await axios.post(`http://localhost:8080/api/users`, newUser);
+        await axios.post(
+            `http://localhost:8080/api/users`, 
+            newUser
+        ).catch(err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err); 
+        });
 
         getUsers();
     }
