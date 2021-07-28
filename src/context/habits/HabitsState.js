@@ -28,7 +28,9 @@ const HabitsState = props => {
 
     const getUsers = async () => {
 
-        const users = await axios.get('http://localhost:8080/api/users').catch(err => {
+        const users = await axios.get(
+            'http://localhost:8080/api/users'
+        ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
         }); 
@@ -41,7 +43,11 @@ const HabitsState = props => {
 
     const getUserDetail = async userId => {
 
-        const res = await axios.get(`http://localhost:8080/api/users/${userId}`);
+        const res = await axios.get(`http://localhost:8080/api/users/${userId}`
+        ).catch(err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err); 
+        });
         
         dispatch({
             type: FETCH_USER_DETAIL,
@@ -62,6 +68,8 @@ const HabitsState = props => {
         const res = await axios.post(
             `http://localhost:8080/api/users/${userId}/`,
             newBook
+        ).then(
+
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
@@ -87,13 +95,15 @@ const HabitsState = props => {
     }
 
     const deleteUser = async userId => {
-        await axios.delete(`http://localhost:8080/api/user/${userId}`
+       const res = await axios.delete(`http://localhost:8080/api/user/${userId}`
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
         });
 
         getUsers();
+
+        return res;
     }
 
     const updateUser = async updateUser => {

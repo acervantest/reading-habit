@@ -201,10 +201,14 @@ const UserInfo = ({ user, toggleCreateBookModal, toggleEditUserModal, toggleDele
 const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, deleteUser, userId, goTo, setAlert }) => {
 
     const removeUser = () => {
-        deleteUser(userId).catch( err => {
+        
+        deleteUser(userId).then( res => {
+            setAlert(res.data, 'success');
+        }).catch( err => {
             const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
             setAlert(errorMessage, 'danger');
         });
+
         toggleDeleteUserModal();
         goTo(`/`)
     }
@@ -333,7 +337,13 @@ const UserDetail = ({ match }) => {
 
     const { userId } = match.params;
 
-    useEffect( () => getUserDetail(userId), []);
+    useEffect( () => {
+        getUserDetail(userId).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'primary'); 
+            goTo(`/`);
+        })
+    }, []);
 
     const goTo = path => history.push(path);
 

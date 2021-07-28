@@ -1,6 +1,7 @@
 import React ,{ useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import HabitsContext from '../../context/habits/HabitsContext';
+import AlertsContext from '../../context/alerts/AlertsContext';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
@@ -62,9 +63,16 @@ const UserBookRecord = ({ match }) => {
 
     const { getBookRecord, book_record, user } = useContext(HabitsContext);
 
+    const { setAlert } = useContext(AlertsContext);
+
     const { userId, bookId , bookTitle } = match.params;
 
-    useEffect( () => { getBookRecord(userId, bookId) }, []);
+    useEffect( () => { 
+        getBookRecord(userId, bookId).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
+        })
+    }, []);
 
     const goTo = (path) => { history.push(path); }
 
