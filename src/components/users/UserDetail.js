@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import HabitsContext from '../../context/habits/HabitsContext';
+import AlertsContext from '../../context/alerts/AlertsContext';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
@@ -46,12 +47,12 @@ const GoBackButton = ({ goTo }) => {
     )
 }
 
-const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook, userId }) => {
+const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook, userId, setAlert }) => {
     
     const { value: bookTitle, bind: bindBookTitle, reset: resetBookTitle } = useInput('');
     const { value: bookDescription, bind: bindBookDescription, reset: resetBookDescription } = useInput('');
     const { value: bookCurrent, bind: bindBookCurrent, reset: resetBookCurrent } = useCheckbox(false);
-    const { value: bookPages, bind: bindBookPages, reset: resetBookPages } = useInput(0);
+    const { value: bookPages, bind: bindBookPages, reset: resetBookPages } = useInput('');
     const { value: bookCategory, bind: bindBookCategory, reset: resetBookCategory } = useInput('');
     const { value: bookAuthorName, bind: bindAuthorName, reset: resetAuthorName } = useInput('');
     const { value: bookAuthorMiddleName, bind: bindAuthorMiddleName, reset: resetAuthorMiddleName } = useInput('');
@@ -76,6 +77,11 @@ const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook,
                 lastName: bookAuthorLastName,
                 about: bookAuthorAbout 
             }
+        }).then( res => {
+            setAlert(`New book for ${ res.data.firstName } created `, 'success');
+        }).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
         });
 
         toggleCreateBookModal();
@@ -194,10 +200,17 @@ const UserInfo = ({ user, toggleCreateBookModal, toggleEditUserModal, toggleDele
     )
 }
 
-const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, deleteUser, userId, goTo  }) => {
+const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, deleteUser, userId, goTo, setAlert }) => {
 
     const removeUser = () => {
-        deleteUser(userId);
+        
+        deleteUser(userId).then( res => {
+            setAlert(res.data, 'success');
+        }).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
+        });
+
         toggleDeleteUserModal();
         goTo(`/`)
     }
@@ -222,7 +235,7 @@ const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, delet
     )
 }
 
-const UpdateUserModal = ({ toggleModal, showModal, editUser, user }) => {
+const UpdateUserModal = ({ toggleModal, showModal, editUser, user, setAlert }) => {
 
     const { value: firstName, bind: bindFirstName } = useInput(user.firstName);
     const { value: lastName, bind: bindLastName } = useInput(user.lastName);
@@ -237,6 +250,11 @@ const UpdateUserModal = ({ toggleModal, showModal, editUser, user }) => {
             firstName: firstName,
             lastName: lastName,
             userName: userName
+        }).then( res => {
+            setAlert(`User ${ res.data.userName } updated `, 'success');
+        }).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
         });
 
         toggleModal();
@@ -308,10 +326,6 @@ const UserDetail = ({ match }) => {
 
     const history = useHistory();
 
-    const habitsContext = useContext(HabitsContext);
-
-    const { userId } = match.params;
-    
     const { 
         delete_user_modal,
         getUserDetail, 
@@ -324,9 +338,19 @@ const UserDetail = ({ match }) => {
         update_user_modal,
         toggleEditUserModal,
         updateUser
-     } = habitsContext;
+     } = useContext(HabitsContext);
 
-    useEffect( () => getUserDetail(userId), []);
+    const { setAlert } = useContext(AlertsContext);
+
+    const { userId } = match.params;
+
+    useEffect( () => {
+        getUserDetail(userId).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'primary'); 
+            goTo(`/`);
+        })
+    }, []);
 
     const goTo = path => history.push(path);
 
@@ -349,6 +373,7 @@ const UserDetail = ({ match }) => {
                 deleteUser={ deleteUser }
                 userId={ userId }
                 goTo={ goTo }
+                setAlert={ setAlert }
             /> 
 
             <CreateBookModal 
@@ -356,6 +381,7 @@ const UserDetail = ({ match }) => {
                 toggleCreateBookModal={ toggleCreateBookModal }
                 createBook={  createBook }
                 userId={ userId }
+                setAlert={ setAlert }
             />
 
             <UpdateUserModal 
@@ -363,6 +389,7 @@ const UserDetail = ({ match }) => {
                 showModal={ update_user_modal }
                 editUser={ updateUser }
                 user={ user }
+                setAlert={ setAlert }
             />
 
              <BookCollection user={ user } goTo={ goTo } /> 

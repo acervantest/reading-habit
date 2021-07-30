@@ -12,3 +12,9 @@ export const FETCH_BOOK_RECORD = 'FETCH_BOOK_RECORD';
 
 export const TOGGLE_CREATE_BOOK_MODAL = 'TOGGLE_CREATE_BOOK_MODAL';
 
+
+export const SET_ALERT = 'SET_ALERT';
+
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+    
+
