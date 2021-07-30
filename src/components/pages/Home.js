@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
 import Users from '../users/Users';
@@ -33,7 +34,7 @@ const Jumbo = ({ toggleModal }) => {
     )
 }
 
-const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert }) => {
+const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert, goTo }) => {
 
     const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput('');
     const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput('');
@@ -47,10 +48,14 @@ const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert }) => {
             firstName: firstName,
             lastName: lastName,
             userName: userName
+        }).then( res => {
+            setAlert(`user ${ res.data.userName } created `, 'success');
+            goTo(`/user/${ res.data.id }`);
         }).catch( err => {
             const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
             setAlert(errorMessage, 'danger');
         });
+
         toggleModal();
         resetFirstName();
         resetLastName();
@@ -98,6 +103,8 @@ const CreateUserModal = ({ toggleModal, showModal, createUser, setAlert }) => {
 
 const Home = () => { 
 
+    const history = useHistory();
+
     const { 
         create_user_modal,
         toggleCreateUserModal,
@@ -105,6 +112,8 @@ const Home = () => {
     } = useContext(HabitsContext);
 
     const { setAlert } = useContext(AlertsContext);
+
+    const goTo = (path) => { history.push(path); }
 
     return(
         <Fragment>
@@ -116,6 +125,7 @@ const Home = () => {
                 showModal={ create_user_modal }
                 createUser={ createUser }
                 setAlert={ setAlert }
+                goTo={ goTo }
             />            
 
             <Users />

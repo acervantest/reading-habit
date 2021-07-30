@@ -43,7 +43,8 @@ const HabitsState = props => {
 
     const getUserDetail = async userId => {
 
-        const res = await axios.get(`http://localhost:8080/api/users/${userId}`
+        const res = await axios.get(
+            `http://localhost:8080/api/users/${userId}`
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
@@ -56,7 +57,12 @@ const HabitsState = props => {
     }
 
     const getBookRecord = async (userId, bookId) => {
-        const res = await axios.get(`http://localhost:8080/api/pages/${userId}/${bookId}`);
+        const res = await axios.get(
+            `http://localhost:8080/api/pages/${userId}/${bookId}`
+        ).catch(err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err); 
+        });
         
         dispatch({
             type: FETCH_BOOK_RECORD,
@@ -68,8 +74,6 @@ const HabitsState = props => {
         const res = await axios.post(
             `http://localhost:8080/api/users/${userId}/`,
             newBook
-        ).then(
-
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
@@ -79,23 +83,28 @@ const HabitsState = props => {
             type: FETCH_USER_DETAIL,
             payload: res.data
         })
+
+        return res;        
     }
 
     const createUser = async newUser => {
         
-        await axios.post(
-            `http://localhost:8080/api/users`, 
-            newUser
+        const res = await axios.post(
+            `http://localhost:8080/api/users`, newUser
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
         });
 
         getUsers();
+
+        return res;
     }
 
     const deleteUser = async userId => {
-       const res = await axios.delete(`http://localhost:8080/api/user/${userId}`
+       
+        const res = await axios.delete(
+            `http://localhost:8080/api/user/${userId}`
         ).catch(err => {
             console.log(JSON.stringify(err));
             return Promise.reject(err); 
@@ -107,8 +116,16 @@ const HabitsState = props => {
     }
 
     const updateUser = async updateUser => {
-        const res = await axios.put(`http://localhost:8080/api/users`, updateUser);
+        const res = await axios.put(
+            `http://localhost:8080/api/users`, updateUser
+        ).catch( err => {
+            console.log(JSON.stringify(err));
+            return Promise.reject(err);
+        });
+        
         getUserDetail(res.data.id);
+
+        return res;
     }
 
     const toggleCreateBookModal = () => {

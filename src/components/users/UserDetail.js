@@ -52,7 +52,7 @@ const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook,
     const { value: bookTitle, bind: bindBookTitle, reset: resetBookTitle } = useInput('');
     const { value: bookDescription, bind: bindBookDescription, reset: resetBookDescription } = useInput('');
     const { value: bookCurrent, bind: bindBookCurrent, reset: resetBookCurrent } = useCheckbox(false);
-    const { value: bookPages, bind: bindBookPages, reset: resetBookPages } = useInput(0);
+    const { value: bookPages, bind: bindBookPages, reset: resetBookPages } = useInput('');
     const { value: bookCategory, bind: bindBookCategory, reset: resetBookCategory } = useInput('');
     const { value: bookAuthorName, bind: bindAuthorName, reset: resetAuthorName } = useInput('');
     const { value: bookAuthorMiddleName, bind: bindAuthorMiddleName, reset: resetAuthorMiddleName } = useInput('');
@@ -77,6 +77,8 @@ const CreateBookModal = ({ create_book_modal, toggleCreateBookModal, createBook,
                 lastName: bookAuthorLastName,
                 about: bookAuthorAbout 
             }
+        }).then( res => {
+            setAlert(`New book for ${ res.data.firstName } created `, 'success');
         }).catch( err => {
             const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
             setAlert(errorMessage, 'danger');
@@ -233,7 +235,7 @@ const DeleteUserModal = ({ user, delete_user_modal, toggleDeleteUserModal, delet
     )
 }
 
-const UpdateUserModal = ({ toggleModal, showModal, editUser, user }) => {
+const UpdateUserModal = ({ toggleModal, showModal, editUser, user, setAlert }) => {
 
     const { value: firstName, bind: bindFirstName } = useInput(user.firstName);
     const { value: lastName, bind: bindLastName } = useInput(user.lastName);
@@ -248,6 +250,11 @@ const UpdateUserModal = ({ toggleModal, showModal, editUser, user }) => {
             firstName: firstName,
             lastName: lastName,
             userName: userName
+        }).then( res => {
+            setAlert(`User ${ res.data.userName } updated `, 'success');
+        }).catch( err => {
+            const errorMessage = err.response !== undefined ? err.response.data.message : err.message;
+            setAlert(errorMessage, 'danger');
         });
 
         toggleModal();
@@ -382,6 +389,7 @@ const UserDetail = ({ match }) => {
                 showModal={ update_user_modal }
                 editUser={ updateUser }
                 user={ user }
+                setAlert={ setAlert }
             />
 
              <BookCollection user={ user } goTo={ goTo } /> 
